@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'todo_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,58 +12,47 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    return ChangeNotifierProvider(
+      create: (context) => PageSelector(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
+        home: HomePage(),
       ),
-      home: const ToDoPage(title: 'ToDo List'),
     );
   }
 }
 
-class ToDoPage extends StatefulWidget {
-  const ToDoPage({super.key, required this.title});
+class PageSelector extends ChangeNotifier {
+  int currentPage = 0;
 
-  final String title;
-
-  @override
-  State<ToDoPage> createState() => _ToDoPageState();
+  void changePage(int pageNum) {
+    currentPage = pageNum;
+    notifyListeners();
+  }
 }
 
-class _ToDoPageState extends State<ToDoPage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
+    int currentPage = context.watch<PageSelector>().currentPage;
+
+    Widget page;
+    switch(currentPage) {
+      case 0: 
+        page = ToDoPage();
+        break;
+      case 1:
+        page = Placeholder();
+        break;
+      default:
+        throw UnimplementedError("no widget exists");
+    }
+
+    return page;
+
   }
 }
