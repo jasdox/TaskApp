@@ -4,14 +4,12 @@ import 'main.dart';
 import 'task.dart';
 
 class TaskPage extends StatelessWidget {
-  final Task task;
-
-  TaskPage({required this.task});
 
   @override
   Widget build(BuildContext context) {
     var pageSelection = Provider.of<PageSelector>(context, listen: false);
     var taskManager = Provider.of<TaskManager>(context, listen: false);
+    Task task = pageSelection.selectedTask!;
 
 
     return Scaffold(
@@ -38,7 +36,7 @@ class TaskPage extends StatelessWidget {
                           },
                           child: Text('Back'),
                         ),
-                    SizedBox(width: 8,),
+                  SizedBox(width: 8,),
                   ElevatedButton(
                           onPressed: () {
                               taskManager.removeTask(task);
@@ -46,6 +44,13 @@ class TaskPage extends StatelessWidget {
                           },
                           child: Text('Done'),
                         ),
+                  SizedBox(width: 8,),
+                  ElevatedButton(
+                      onPressed: () {
+                          pageSelection.changePage(3);
+                      },
+                      child: Text('Edit'),
+                    ),
                 ],
               ),
           

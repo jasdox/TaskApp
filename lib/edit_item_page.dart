@@ -3,26 +3,24 @@ import 'package:provider/provider.dart';
 import 'main.dart';
 import 'task.dart';
 
-class CreateItemPage extends StatefulWidget {
+class EditItemPage extends StatefulWidget {
 
   @override
-  State<CreateItemPage> createState() => _CreateItemPageState();
+  State<EditItemPage> createState() => _EditItemPageState();
 }
 
-class _CreateItemPageState extends State<CreateItemPage> {
+class _EditItemPageState extends State<EditItemPage> {
   final _formKey = GlobalKey<FormState>();
-  String _title = '';
-  String _description = '';
-  DateTime _dueDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
   @override
   Widget build(BuildContext context) {
-    var pageSelector = Provider.of<PageSelector>(context, listen: false);
+    var pageSelection = Provider.of<PageSelector>(context, listen: false);
     var taskManager = Provider.of<TaskManager>(context, listen: false);
+    Task task = pageSelection.selectedTask!;
 
 
     return Scaffold(
-      appBar: AppBar(title: Text('Create New Task'), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
+      appBar: AppBar(title: Text('Edit Task'), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
       body: Padding(
         padding: const EdgeInsets.all(64),
         child: Form(
@@ -31,24 +29,26 @@ class _CreateItemPageState extends State<CreateItemPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextFormField(
+              initialValue: task.title,
               decoration: InputDecoration(labelText: 'Title'),
               validator: (value) {
                 if (value == null || value.isEmpty) return 'Enter a title';
                 return null;
               },
               onSaved: (value) {
-                _title = value!;
+                task.title = value!;
               },
             ),
             TextFormField(
+              initialValue: task.description,
               decoration: InputDecoration(labelText: 'Description'),
               onSaved: (value) {
-                _description = value!;
+                task.description = value!;
               },
             ),
             Column(
               children: [
-                Text('${_dueDate.day}/${_dueDate.month}/${_dueDate.year}'),
+                Text('${task.dueDate.day}/${task.dueDate.month}/${task.dueDate.year}'),
                 SizedBox(height: 8,),
                 ElevatedButton.icon(
                   icon: const Icon(Icons.calendar_today),
@@ -64,7 +64,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                         
                     setState((){
                       if (date != null) {
-                        _dueDate = date;
+                        task.dueDate = date;
                       }
                     });
                   }
@@ -76,7 +76,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                      pageSelector.changePage(0);
+                      pageSelection.changePage(0);
                   },
                   child: Text('Back'),
                 ),
@@ -85,10 +85,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save(); // Calls onSaved on all fields
-                        
-                      Task newTask = Task(title: _title, dueDate: _dueDate, description: _description);
-                      taskManager.addTask(newTask);
-                      pageSelector.changePage(0);
+                      pageSelection.changePage(2);
                     }
                   },
                   child: Text('Submit'),
