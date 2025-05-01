@@ -22,7 +22,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
 
 
     return Scaffold(
-      appBar: AppBar(title: Text('Create New Task')),
+      appBar: AppBar(title: Text('Create New Task'), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
       body: Padding(
         padding: const EdgeInsets.all(64),
         child: Form(
@@ -70,17 +70,29 @@ class _CreateItemPageState extends State<CreateItemPage> {
                 ),
               ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save(); // Calls onSaved on all fields
-        
-                  Task newTask = Task(title: _title, dueDate: _dueDate, description: _description);
-                  taskManager.addTask(newTask);
-                  pageSelector.changePage(0);
-                }
-              },
-              child: Text('Submit'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                      pageSelector.changePage(0);
+                  },
+                  child: Text('Back'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save(); // Calls onSaved on all fields
+                        
+                      Task newTask = Task(title: _title, dueDate: _dueDate, description: _description);
+                      taskManager.addTask(newTask);
+                      pageSelector.changePage(0);
+                    }
+                  },
+                  child: Text('Submit'),
+                ),
+                
+              ],
             ),
           ],
         ),
