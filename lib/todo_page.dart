@@ -26,7 +26,7 @@ class ToDoPage extends StatelessWidget {
                     children: [
                       OutlinedButton(
                         onPressed: () {
-                          pageSelection.openTask(task.id);
+                          pageSelection.openTask(task);
                         }, 
                         child: Text(task.toString()),
                         ),

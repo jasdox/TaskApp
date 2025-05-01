@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'todo_page.dart';
 import 'create_item_page.dart';
 import 'task.dart';
-import 'package:uuid/uuid.dart';
+import 'task_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,15 +33,15 @@ class MyApp extends StatelessWidget {
 
 class PageSelector extends ChangeNotifier {
   int currentPage = 0;
-  Uuid? selectedTask;
+  Task? selectedTask;
 
   void changePage(int pageNum) {
     currentPage = pageNum;
     notifyListeners();
   }
 
-  void openTask(Uuid taskID) {
-    selectedTask = taskID;
+  void openTask(Task task) {
+    selectedTask = task;
     currentPage = 2;
     notifyListeners();
   }
@@ -65,10 +65,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int currentPage = context.watch<PageSelector>().currentPage;
+    var pageSelection = context.watch<PageSelector>();
 
     Widget page;
-    switch(currentPage) {
+    switch(pageSelection.currentPage) {
       case 0: 
         page = ToDoPage();
         break;
@@ -76,7 +76,7 @@ class HomePage extends StatelessWidget {
         page = CreateItemPage();
         break;
       case 2: 
-        page = Placeholder();
+        page = TaskPage(task: pageSelection.selectedTask!);
         break;
       default:
         throw UnimplementedError("no widget exists");
