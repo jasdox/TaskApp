@@ -15,13 +15,28 @@ class ToDoPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text("ToDo List"),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            for (Task task in tasks)
-              Text(task.toString()),
-          ],
-        )
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              for (Task task in tasks)
+                Center(
+                  child: Column(
+                    children: [
+                      OutlinedButton(
+                        onPressed: () {
+                          pageSelection.openTask(task.id);
+                        }, 
+                        child: Text(task.toString()),
+                        ),
+                        SizedBox(height: 8,)
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
