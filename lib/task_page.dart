@@ -38,12 +38,13 @@ class TaskPage extends StatelessWidget {
                           },
                           child: Text('Back'),
                         ),
+                    SizedBox(width: 8,),
                   ElevatedButton(
                           onPressed: () {
                               taskManager.removeTask(task);
                               pageSelection.changePage(0);
                           },
-                          child: Text('Delete'),
+                          child: Text('Done'),
                         ),
                 ],
               ),
