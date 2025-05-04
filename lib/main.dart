@@ -8,6 +8,8 @@ import 'edit_item_page.dart';
 import 'package:window_manager/window_manager.dart';
 import 'dart:io';
 
+const double kWidth = 400;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
@@ -15,8 +17,8 @@ void main() async {
   
 
   if (Platform.isWindows) {
-    WindowManager.instance.setMinimumSize(const Size(400, 0));
-    WindowManager.instance.setMaximumSize(const Size(400, 2400));
+    WindowManager.instance.setMinimumSize(const Size(kWidth, 0));
+    WindowManager.instance.setMaximumSize(const Size(kWidth, 2400));
 
     WindowOptions windowOptions = WindowOptions(
     size: const Size(400, 800),

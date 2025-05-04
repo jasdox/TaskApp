@@ -15,7 +15,6 @@ class _EditItemPageState extends State<EditItemPage> {
   @override
   Widget build(BuildContext context) {
     var pageSelection = Provider.of<PageSelector>(context, listen: false);
-    var taskManager = Provider.of<TaskManager>(context, listen: false);
     Task task = pageSelection.selectedTask!;
 
 

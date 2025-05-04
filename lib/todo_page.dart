@@ -8,7 +8,7 @@ class ToDoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var pageSelection = Provider.of<PageSelector>(context, listen: false);
-    List<Task> tasks = Provider.of<TaskManager>(context, listen: false).tasks;
+    var taskManager = Provider.of<TaskManager>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -20,16 +20,27 @@ class ToDoPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              for (Task task in tasks)
+              for (Task task in taskManager.tasks)
                 Center(
                   child: Column(
                     children: [
-                      OutlinedButton(
-                        onPressed: () {
-                          pageSelection.openTask(task);
-                        }, 
-                        child: Text(task.toString()),
-                        ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: OutlinedButton(
+                              onPressed: () {
+                                pageSelection.openTask(task);
+                              }, 
+                              child: Text(task.toString(), softWrap: true,),
+                              ),
+                          ),
+                            OutlinedButton(
+                            onPressed: () {
+                            taskManager.removeTask(task);                              }, 
+                            child: Text("Done"),
+                            ),
+                        ],
+                      ),
                         SizedBox(height: 8,)
                     ],
                   ),

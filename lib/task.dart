@@ -12,7 +12,7 @@ class Task {
 
   @override
   String toString() {
-    return 'Task(title: $title, description: $description, dueDate: ${dueDate.toIso8601String()})';
+    return '$title | ${dueDate.day}/${dueDate.month}/${dueDate.year}';
   }
 }
 
