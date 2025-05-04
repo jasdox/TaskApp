@@ -7,14 +7,16 @@ import 'task_page.dart';
 import 'edit_item_page.dart';
 import 'package:window_manager/window_manager.dart';
 import 'dart:io';
+import 'package:path/path.dart';
+import 'task_database.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 const double kWidth = 400;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
-
-  
+  await TaskDatabase.initDb();
 
   if (Platform.isWindows) {
     WindowManager.instance.setMinimumSize(const Size(kWidth, 0));
@@ -77,15 +79,16 @@ class PageSelector extends ChangeNotifier {
 }
 
 class TaskManager extends ChangeNotifier {
-  List<Task> tasks = [];
 
-  void addTask(Task newTask) {
-    tasks.add(newTask);
+  void addTask(Task newTask) async {
+    TaskDatabase.insertTask(newTask);
+    await TaskDatabase.updateTaskList();
     notifyListeners();
   }
 
-  void removeTask(Task task) {
-    tasks.remove(task);
+  void removeTask(Task task) async {
+    TaskDatabase.deleteTask(task);
+    await TaskDatabase.updateTaskList();
     notifyListeners();
   }
 }

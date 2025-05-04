@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/task.dart';
+import 'package:flutter_application_1/task_database.dart';
 import 'package:provider/provider.dart';
 import 'main.dart';
 
-class ToDoPage extends StatelessWidget {
+class ToDoPage extends StatelessWidget  {
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class ToDoPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              for (Task task in taskManager.tasks)
+              for (Task task in TaskDatabase.tasks)
                 Center(
                   child: Column(
                     children: [
