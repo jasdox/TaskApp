@@ -32,7 +32,7 @@ class TaskDatabase {
     final List<Map<String, Object?>> taskMaps = await database!.query('tasks'); 
 
     tasks = [
-      for (final {'id': id as String?, 'title': title as String, 'description': description as String, 'dueDate': dueDate as int} in taskMaps) Task(id: id, title: title, description: description, dueDate: DateTime.fromMicrosecondsSinceEpoch(dueDate))
+      for (final {'id': id as String?, 'title': title as String, 'description': description as String, 'dueDate': dueDate as int} in taskMaps) Task(id: id, title: title, description: description, dueDate: DateTime.fromMillisecondsSinceEpoch(dueDate))
     ];
   }
 

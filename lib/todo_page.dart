@@ -26,6 +26,7 @@ class ToDoPage extends StatelessWidget  {
                   child: Column(
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Flexible(
                             child: OutlinedButton(
