@@ -56,6 +56,8 @@ class _CreateItemPageState extends State<CreateItemPage> {
               onSaved: (value) {
                 _description = value!;
               },
+              minLines: 1,
+              maxLines: 6,
             ),
             Column(
               children: [
