@@ -14,6 +14,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
   String _title = '';
   String _description = '';
   DateTime _dueDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  bool inGroup = false;
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +70,17 @@ class _CreateItemPageState extends State<CreateItemPage> {
                     });
                   }
                 ),
+              ],
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: inGroup,
+                  onChanged: (value) => setState(() => inGroup = value!),
+                ),
+                SizedBox(width: 8), // 🔧 spacing
+                Text('In Group?'),
+
               ],
             ),
             Row(

@@ -7,11 +7,9 @@ import 'task_page.dart';
 import 'edit_item_page.dart';
 import 'package:window_manager/window_manager.dart';
 import 'dart:io';
-import 'package:path/path.dart';
 import 'task_database.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-const double kWidth = 400;
+const double kWidth = 450;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +21,7 @@ void main() async {
     WindowManager.instance.setMaximumSize(const Size(kWidth, 2400));
 
     WindowOptions windowOptions = WindowOptions(
-    size: const Size(400, 800),
+    size: const Size(kWidth, 800),
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
@@ -82,13 +80,28 @@ class TaskManager extends ChangeNotifier {
 
   void addTask(Task newTask) async {
     TaskDatabase.insertTask(newTask);
-    await TaskDatabase.updateTaskList();
+    await TaskDatabase.updateLists();
+    notifyListeners();
+  }
+
+  void addGroup(TaskGroup newTaskGroup) async {
+    TaskDatabase.insertGroup(newTaskGroup);
+    await TaskDatabase.updateLists();
     notifyListeners();
   }
 
   void removeTask(Task task) async {
     TaskDatabase.deleteTask(task);
-    await TaskDatabase.updateTaskList();
+    await TaskDatabase.updateLists();
+    notifyListeners();
+  }
+  void removeTaskGroup(TaskGroup taskGroup) async {
+    TaskDatabase.deleteGroup(taskGroup);
+    await TaskDatabase.updateLists();
+    notifyListeners();
+  }
+
+  void loadTasks() {
     notifyListeners();
   }
 }

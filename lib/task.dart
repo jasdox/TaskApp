@@ -5,10 +5,10 @@ class Task {
   String title;
   DateTime dueDate;
   String? description;
-  Uuid? groupId; 
+  TaskGroup? group;
   
 
-  Task({required this.title, required this.dueDate, this.description, this.groupId, String? id}) : id = id ?? Uuid().v4();
+  Task({required this.title, required this.dueDate, this.description, this.group, String? id}) : id = id ?? Uuid().v4();
 
   @override
   String toString() {
@@ -16,11 +16,17 @@ class Task {
   }
 
   Map<String, Object?> toMap() {
-    return {'id': id, 'title': title, 'description': description, 'dueDate': dueDate.millisecondsSinceEpoch};
+    return {'id': id, 'title': title, 'description': description, 'dueDate': dueDate.millisecondsSinceEpoch, 'groupID': group?.id};
   }
 }
 
 class TaskGroup {
-  Uuid id = Uuid();
-  List<Task> tasks = [];
+  String id;
+  String title;
+
+  TaskGroup({required this.title, String? id}) : id = id ?? Uuid().v4();
+
+  Map<String, Object?> toMap() {
+    return {'id': id, 'title': title};
+  }
 }

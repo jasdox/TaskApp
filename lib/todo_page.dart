@@ -11,6 +11,10 @@ class ToDoPage extends StatelessWidget  {
     var pageSelection = Provider.of<PageSelector>(context, listen: false);
     var taskManager = Provider.of<TaskManager>(context);
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      taskManager.loadTasks();
+    });
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
