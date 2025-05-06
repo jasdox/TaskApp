@@ -90,6 +90,18 @@ class TaskManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateTask(Task task) async {
+    TaskDatabase.updateTask(task);
+    await TaskDatabase.updateLists();
+    notifyListeners();
+  }
+
+  void updateGroup(TaskGroup taskGroup) async {
+    TaskDatabase.updateGroup(taskGroup);
+    await TaskDatabase.updateLists();
+    notifyListeners();
+  }
+
   void removeTask(Task task) async {
     TaskDatabase.deleteTask(task);
     await TaskDatabase.updateLists();

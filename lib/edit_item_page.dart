@@ -16,6 +16,7 @@ class _EditItemPageState extends State<EditItemPage> {
   Widget build(BuildContext context) {
     var pageSelection = Provider.of<PageSelector>(context, listen: false);
     Task task = pageSelection.selectedTask!;
+    var taskManager = Provider.of<TaskManager>(context, listen: false);
 
 
     return Scaffold(
@@ -84,6 +85,7 @@ class _EditItemPageState extends State<EditItemPage> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save(); // Calls onSaved on all fields
+                      taskManager.updateTask(task);
                       pageSelection.changePage(2);
                     }
                   },
