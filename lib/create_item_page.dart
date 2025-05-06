@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/task_database.dart';
 import 'package:provider/provider.dart';
 import 'main.dart';
 import 'task.dart';
@@ -15,11 +16,20 @@ class _CreateItemPageState extends State<CreateItemPage> {
   String _description = '';
   DateTime _dueDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   bool inGroup = false;
+  String? selectedGroup;
 
   @override
   Widget build(BuildContext context) {
     var pageSelector = Provider.of<PageSelector>(context, listen: false);
     var taskManager = Provider.of<TaskManager>(context, listen: false);
+
+    List<DropdownMenuEntry<String>> groupEntries = TaskDatabase.taskGroups.map<DropdownMenuEntry<String>>(
+      (TaskGroup taskGroup) {
+        return DropdownMenuEntry<String>(value: taskGroup.toString(), label: taskGroup.toString());
+        }
+      ).toList();
+
+    groupEntries.add(DropdownMenuEntry(value: "New Group", label: "New Group"));
 
 
     return Scaffold(
@@ -78,9 +88,18 @@ class _CreateItemPageState extends State<CreateItemPage> {
                   value: inGroup,
                   onChanged: (value) => setState(() => inGroup = value!),
                 ),
-                SizedBox(width: 8), // 🔧 spacing
+                SizedBox(width: 8),
                 Text('In Group?'),
-
+                if (inGroup) ...[
+                SizedBox(width: 32),
+                DropdownMenu<String>(
+                  onSelected: (String? selection) {
+                    selectedGroup = selection;
+                  },
+                  dropdownMenuEntries: groupEntries,
+                  width: 160,
+                  )
+                ]
               ],
             ),
             Row(

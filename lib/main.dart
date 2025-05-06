@@ -9,7 +9,7 @@ import 'package:window_manager/window_manager.dart';
 import 'dart:io';
 import 'task_database.dart';
 
-const double kWidth = 450;
+const double kWidth = 500;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

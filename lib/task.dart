@@ -29,4 +29,9 @@ class TaskGroup {
   Map<String, Object?> toMap() {
     return {'id': id, 'title': title};
   }
+
+  @override
+  String toString() {
+    return title;
+  }
 }
