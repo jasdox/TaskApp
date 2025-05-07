@@ -33,7 +33,7 @@ class TaskGroup {
   int taskCount;
   String? description;
 
-  TaskGroup({required this.title, required this.color, this.description, String? id, int? taskCount}) : id = id ?? Uuid().v4(), this.taskCount = taskCount ?? 1;
+  TaskGroup({required this.title, required this.color, this.description, String? id, int? taskCount}) : id = id ?? Uuid().v4(), taskCount = taskCount ?? 1;
 
   Map<String, Object?> toMap() {
     return {'id': id, 'title': title, 'color': color.toARGB32(), 'taskCount': taskCount};

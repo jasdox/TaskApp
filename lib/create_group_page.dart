@@ -5,6 +5,8 @@ import 'task.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 
 class CreateGroupPage extends StatefulWidget {
+  const CreateGroupPage({super.key});
+
 
   @override
   State<CreateGroupPage> createState() => _CreateGroupPageState();
