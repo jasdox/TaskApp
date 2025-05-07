@@ -8,6 +8,7 @@ import 'edit_item_page.dart';
 import 'package:window_manager/window_manager.dart';
 import 'dart:io';
 import 'task_database.dart';
+import 'create_group_page.dart';
 
 const double kWidth = 500;
 
@@ -66,6 +67,11 @@ class PageSelector extends ChangeNotifier {
 
   void changePage(int pageNum) {
     currentPage = pageNum;
+    notifyListeners();
+  }
+
+  void changeSelectedTask(Task task) {
+    selectedTask = task;
     notifyListeners();
   }
 
@@ -137,6 +143,9 @@ class HomePage extends StatelessWidget {
         break;
       case 3: 
       page = EditItemPage();
+        break;
+      case 4:
+        page = CreateGroupPage();
         break;
       default:
         throw UnimplementedError("no widget exists");

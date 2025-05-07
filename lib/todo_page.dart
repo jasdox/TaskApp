@@ -34,6 +34,7 @@ class ToDoPage extends StatelessWidget  {
                         children: [
                           Flexible(
                             child: OutlinedButton(
+                              style: task.group != null ? ButtonStyle(backgroundColor: WidgetStateProperty.all(task.group!.color)) : null,
                               onPressed: () {
                                 pageSelection.openTask(task);
                               }, 
@@ -41,7 +42,15 @@ class ToDoPage extends StatelessWidget  {
                               ),
                           ),
                             OutlinedButton(
+                            style: task.group != null ? ButtonStyle(backgroundColor: WidgetStateProperty.all(task.group!.color)) : null,
                             onPressed: () {
+                            if (task.group != null) {
+                              task.group!.taskCount -= 1;
+                              taskManager.updateGroup(task.group!);
+                              if (task.group!.taskCount <= 0) {
+                                taskManager.removeTaskGroup(task.group!);
+                              }
+                            }
                             taskManager.removeTask(task);                              }, 
                             child: Text("Done"),
                             ),

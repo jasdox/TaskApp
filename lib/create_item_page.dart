@@ -25,7 +25,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
 
     List<DropdownMenuEntry<String>> groupEntries = TaskDatabase.taskGroups.map<DropdownMenuEntry<String>>(
       (TaskGroup taskGroup) {
-        return DropdownMenuEntry<String>(value: taskGroup.toString(), label: taskGroup.toString());
+        return DropdownMenuEntry<String>(value: taskGroup.id, label: taskGroup.toString());
         }
       ).toList();
 
@@ -118,10 +118,27 @@ class _CreateItemPageState extends State<CreateItemPage> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save(); // Calls onSaved on all fields
-                        
-                      Task newTask = Task(title: _title, dueDate: _dueDate, description: _description);
-                      taskManager.addTask(newTask);
-                      pageSelector.changePage(0);
+
+                      if (selectedGroup != null) {
+                        if (selectedGroup == "New Group") {
+                          Task newTask = Task(title: _title, dueDate: _dueDate, description: _description);
+                          taskManager.addTask(newTask);
+                          pageSelector.changeSelectedTask(newTask);
+                          pageSelector.changePage(4);
+                        }
+                        else {
+                          Task newTask = Task(title: _title, dueDate: _dueDate, description: _description, group: TaskDatabase.taskGroups.firstWhere((group) => group.id == selectedGroup));
+                          newTask.group!.taskCount += 1;
+                          taskManager.updateGroup(newTask.group!);
+                          taskManager.addTask(newTask);
+                          pageSelector.changePage(0);
+                        }
+                      }
+                      else {
+                       Task newTask = Task(title: _title, dueDate: _dueDate, description: _description);
+                       taskManager.addTask(newTask);
+                       pageSelector.changePage(0);
+                      }
                     }
                   },
                   child: Text('Submit'),

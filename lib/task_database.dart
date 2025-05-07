@@ -1,6 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'task.dart';
+import 'package:flutter/material.dart';
 
 
 class TaskDatabase {
@@ -13,8 +14,8 @@ class TaskDatabase {
     databaseFactory = databaseFactoryFfi;
 
   // below is for if databse needs to be re-created
-  // final dbPath = join(await getDatabasesPath(), 'task_database.db');
-  // await deleteDatabase(dbPath);
+  final dbPath = join(await getDatabasesPath(), 'task_database.db');
+  await deleteDatabase(dbPath);
 
 
     database = await openDatabase(
@@ -22,7 +23,7 @@ class TaskDatabase {
 
     onCreate: (db, version) async {
       await db.execute('CREATE TABLE tasks(id TEXT PRIMARY KEY, title TEXT, description TEXT, dueDate INTEGER, groupId TEXT, FOREIGN KEY (groupId) REFERENCES groups(id) ON DELETE SET NULL)');
-      await db.execute('CREATE TABLE groups(id TEXT PRIMARY KEY, title TEXT, tasks TEXT)');
+      await db.execute('CREATE TABLE groups(id TEXT PRIMARY KEY, title TEXT, color INTEGER, taskCount INTEGER)');
     },
 
     version: 1,
@@ -35,7 +36,7 @@ class TaskDatabase {
     final List<Map<String, Object?>> taskMaps = await database!.query('tasks'); 
     final List<Map<String, Object?>> groupMaps = await database!.query('groups'); 
 
-    taskGroups = [for (final {'id': id as String, 'title': title as String} in groupMaps) TaskGroup(title: title, id: id)];
+    taskGroups = [for (final {'id': id as String, 'title': title as String, 'color': color as int, 'taskCount': taskCount as int} in groupMaps) TaskGroup(title: title, id: id, color: Color(color), taskCount: taskCount)];
 
     tasks = [];
       for (final {'id': id as String, 'title': title as String, 'description': description as String, 'dueDate': dueDate as int, 'groupId': groupId as String?} in taskMaps) {

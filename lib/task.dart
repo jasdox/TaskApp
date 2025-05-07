@@ -1,4 +1,5 @@
 import 'package:uuid/uuid.dart';
+import 'package:flutter/material.dart';
 
 class Task {
   String id;
@@ -6,6 +7,7 @@ class Task {
   DateTime dueDate;
   String? description;
   TaskGroup? group;
+  
   
 
   Task({required this.title, required this.dueDate, this.description, this.group, String? id}) : id = id ?? Uuid().v4();
@@ -18,16 +20,23 @@ class Task {
   Map<String, Object?> toMap() {
     return {'id': id, 'title': title, 'description': description, 'dueDate': dueDate.millisecondsSinceEpoch, 'groupID': group?.id};
   }
+
+  void addToGroup(TaskGroup group) {
+    this.group = group;
+  }
 }
 
 class TaskGroup {
   String id;
   String title;
+  Color color;
+  int taskCount;
+  String? description;
 
-  TaskGroup({required this.title, String? id}) : id = id ?? Uuid().v4();
+  TaskGroup({required this.title, required this.color, this.description, String? id, int? taskCount}) : id = id ?? Uuid().v4(), this.taskCount = taskCount ?? 1;
 
   Map<String, Object?> toMap() {
-    return {'id': id, 'title': title};
+    return {'id': id, 'title': title, 'color': color.toARGB32(), 'taskCount': taskCount};
   }
 
   @override

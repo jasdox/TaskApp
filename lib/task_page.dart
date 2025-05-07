@@ -27,6 +27,10 @@ class TaskPage extends StatelessWidget {
               SizedBox(height: 8,),
               Text("Due Date: ${task.dueDate.day}/${task.dueDate.month}/${task.dueDate.year}"),
               SizedBox(height: 32,),
+              if (task.group != null) ...[
+              Text("Group: ${task.group.toString()}"),
+              SizedBox(height: 32,),
+              ],
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -39,6 +43,13 @@ class TaskPage extends StatelessWidget {
                   SizedBox(width: 8,),
                   ElevatedButton(
                           onPressed: () {
+                              if (task.group != null) {
+                                task.group!.taskCount -= 1;
+                                if (task.group!.taskCount <= 0) {
+                                  taskManager.removeTaskGroup(task.group!);
+                                }
+                              }
+
                               taskManager.removeTask(task);
                               pageSelection.changePage(0);
                           },
