@@ -14,8 +14,8 @@ class TaskDatabase {
     databaseFactory = databaseFactoryFfi;
 
   // below is for if databse needs to be re-created
-  final dbPath = join(await getDatabasesPath(), 'task_database.db');
-  await deleteDatabase(dbPath);
+  //final dbPath = join(await getDatabasesPath(), 'task_database.db');
+  //await deleteDatabase(dbPath);
 
 
     database = await openDatabase(

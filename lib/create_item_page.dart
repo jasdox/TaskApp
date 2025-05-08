@@ -63,7 +63,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
             ),
             Column(
               children: [
-                Text('${_dueDate.day}/${_dueDate.month}/${_dueDate.year}'),
+                Text('${_dueDate.month}/${_dueDate.day}/${_dueDate.year}'),
                 SizedBox(height: 8,),
                 ElevatedButton.icon(
                   icon: const Icon(Icons.calendar_today),
@@ -126,6 +126,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                           Task newTask = Task(title: _title, dueDate: _dueDate, description: _description);
                           taskManager.addTask(newTask);
                           pageSelector.changeSelectedTask(newTask);
+                          pageSelector.prevPage = 1;
                           pageSelector.changePage(4);
                         }
                         else {

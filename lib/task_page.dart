@@ -60,6 +60,7 @@ class TaskPage extends StatelessWidget {
                   SizedBox(width: 8,),
                   ElevatedButton(
                       onPressed: () {
+                          pageSelection.prevPage = 2;
                           pageSelection.changePage(3);
                       },
                       child: Text('Edit'),

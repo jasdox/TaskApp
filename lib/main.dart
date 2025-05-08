@@ -63,6 +63,7 @@ class MyApp extends StatelessWidget {
 
 class PageSelector extends ChangeNotifier {
   int currentPage = 0;
+  int prevPage = 0;
   Task? selectedTask;
 
   void changePage(int pageNum) {
@@ -144,7 +145,7 @@ class HomePage extends StatelessWidget {
         page = TaskPage();
         break;
       case 3: 
-      page = EditItemPage();
+        page = EditItemPage();
         break;
       case 4:
         page = CreateGroupPage();

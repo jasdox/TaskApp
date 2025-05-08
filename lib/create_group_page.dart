@@ -61,7 +61,7 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                      pageSelector.changePage(1);
+                      pageSelector.changePage(pageSelector.prevPage);
                   },
                   child: Text('Back'),
                 ),
@@ -75,7 +75,8 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                       pageSelector.selectedTask!.addToGroup(taskGroup);
                       taskManager.addGroup(taskGroup);
                       taskManager.updateTask(pageSelector.selectedTask!);
-                      pageSelector.changePage(0);
+                      if (pageSelector.prevPage == 3) {pageSelector.changePage(2);}
+                      else {pageSelector.changePage(0);}
                     }
                   },
                   child: Text('Submit'),

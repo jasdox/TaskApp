@@ -14,7 +14,7 @@ class Task {
 
   @override
   String toString() {
-    return '$title | ${dueDate.day}/${dueDate.month}/${dueDate.year}';
+    return '$title | ${dueDate.month}/${dueDate.day}/${dueDate.year}';
   }
 
   Map<String, Object?> toMap() {
