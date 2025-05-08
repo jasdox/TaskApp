@@ -3,7 +3,6 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'task.dart';
 import 'package:flutter/material.dart';
 
-
 class TaskDatabase {
   static Database? database;
   static List<Task> tasks = [];
@@ -49,11 +48,23 @@ class TaskDatabase {
       }
   }
 
-    static insertTask(Task task) {
+  static sortTasksByDate() {
+    tasks.sort((a, b) => a.dueDate.compareTo(b.dueDate));
+  }
+
+  static sortTasksByGroup() {
+    tasks.sort((a, b) {
+      int cmp = (a.group?.color.toARGB32() ?? Colors.white.toARGB32()).compareTo(b.group?.color.toARGB32() ?? Colors.white.toARGB32()) ;
+      if (cmp != 0) return cmp;
+      return a.dueDate.compareTo(b.dueDate);
+      });
+  }
+
+  static insertTask(Task task) {
     database!.insert('tasks', task.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-      static insertGroup(TaskGroup taskGroup) { 
+  static insertGroup(TaskGroup taskGroup) { 
     database!.insert('groups', taskGroup.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 

@@ -123,6 +123,18 @@ class TaskManager extends ChangeNotifier {
   void loadTasks() {
     notifyListeners();
   }
+
+  void sortTasks(int sortType) async {
+   await TaskDatabase.updateLists();
+    if (sortType == 0) {
+      TaskDatabase.sortTasksByDate();
+    }
+    else {
+      TaskDatabase.sortTasksByGroup();
+    }
+    notifyListeners();
+  }
+
 }
 
 class HomePage extends StatelessWidget {

@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/task.dart';
 import 'package:flutter_application_1/task_database.dart';
 import 'package:provider/provider.dart';
 import 'main.dart';
 
-class ToDoPage extends StatelessWidget  {
+class ToDoPage extends StatefulWidget  {
   const ToDoPage({super.key});
+
+  @override
+  State<ToDoPage> createState() => _ToDoPageState();
+}
+
+class _ToDoPageState extends State<ToDoPage> {
+
+  @override 
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      var taskManager = Provider.of<TaskManager>(context, listen: false);
+      taskManager.loadTasks();
+    });
+  }
 
 
   @override
   Widget build(BuildContext context) {
     var pageSelection = Provider.of<PageSelector>(context, listen: false);
     var taskManager = Provider.of<TaskManager>(context);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      taskManager.loadTasks();
-    });
 
     return Scaffold(
       appBar: AppBar(
@@ -24,28 +34,51 @@ class ToDoPage extends StatelessWidget  {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              for (Task task in TaskDatabase.tasks)
-                Center(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: OutlinedButton(
-                              style: task.group != null ? ButtonStyle(backgroundColor: WidgetStateProperty.all(task.group!.color)) : null,
-                              onPressed: () {
-                                pageSelection.openTask(task);
-                              }, 
-                              child: Text(task.toString(), softWrap: true,),
-                              ),
-                          ),
-                            OutlinedButton(
-                            style: task.group != null ? ButtonStyle(backgroundColor: WidgetStateProperty.all(task.group!.color)) : null,
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: DropdownMenu<int>(
+                      label: Text("Sort By"),
+                      dropdownMenuEntries: [DropdownMenuEntry(value: 0, label: "Due Date"), DropdownMenuEntry(value: 1, label: "Group")],
+                      onSelected: (int? value) {
+                        if (value != null) {
+                          taskManager.sortTasks(value);
+                        }
+                      },
+                      ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: TaskDatabase.tasks.length,
+                padding: const EdgeInsets.only(top: 16),
+                itemBuilder: (context, index) {
+                  final task = TaskDatabase.tasks[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: OutlinedButton(
+                            style: task.group != null
+                                ? ButtonStyle(
+                                    backgroundColor: WidgetStateProperty.all(task.group!.color),
+                                  )
+                                : null,
                             onPressed: () {
+                              pageSelection.openTask(task);
+                            },
+                            child: Text(task.toString(), softWrap: true),
+                          ),
+                        ),
+                        OutlinedButton(
+                          style: task.group != null
+                              ? ButtonStyle(
+                                  backgroundColor: WidgetStateProperty.all(task.group!.color),
+                                )
+                              : null,
+                          onPressed: () {
                             if (task.group != null) {
                               task.group!.taskCount -= 1;
                               taskManager.updateGroup(task.group!);
@@ -53,17 +86,18 @@ class ToDoPage extends StatelessWidget  {
                                 taskManager.removeTaskGroup(task.group!);
                               }
                             }
-                            taskManager.removeTask(task);                              }, 
-                            child: Text("Done"),
-                            ),
-                        ],
-                      ),
-                        SizedBox(height: 8,)
-                    ],
-                  ),
-                ),
-            ],
-          ),
+                            taskManager.removeTask(task);
+                          },
+                          child: const Text("Done"),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            )
+
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
