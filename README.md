@@ -45,7 +45,7 @@ lib/
 
 ```bash
 flutter pub get
-flutter run -d windows   # or -d chrome, -d android, etc.
+flutter run -d windows 
 ```
 
 ---
