@@ -121,10 +121,10 @@ class _EditItemPageState extends State<EditItemPage> {
                 ),
                 SizedBox(width: 8,),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save(); // Calls onSaved on all fields
-                      taskManager.updateTask(task);
+                      await taskManager.updateTask(task);
 
                       if (selectedGroup != null) {
                         if (selectedGroup == "New Group") {
@@ -135,8 +135,8 @@ class _EditItemPageState extends State<EditItemPage> {
                         else {
                           task.group = TaskDatabase.taskGroups.firstWhere((group) => group.id == selectedGroup);
                           task.group!.taskCount += 1;
-                          taskManager.updateTask(task);
-                          taskManager.updateGroup(task.group!);
+                          await taskManager.updateTask(task);
+                          await taskManager.updateGroup(task.group!);
                           pageSelection.changePage(2);
                         }
                       }

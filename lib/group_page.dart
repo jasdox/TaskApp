@@ -44,7 +44,7 @@ class GroupPage extends StatelessWidget {
                 children: [
                   ElevatedButton(
                           onPressed: () {
-                              pageSelection.changePage(pageSelection.prevPage);
+                              pageSelection.openTask(pageSelection.selectedTask!);
                           },
                           child: Text('Back'),
                         ),

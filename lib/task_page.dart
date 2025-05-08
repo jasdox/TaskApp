@@ -59,15 +59,15 @@ class TaskPage extends StatelessWidget {
                         ),
                   SizedBox(width: 8,),
                   ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                               if (task.group != null) {
                                 task.group!.taskCount -= 1;
                                 if (task.group!.taskCount <= 0) {
-                                  taskManager.removeTaskGroup(task.group!);
+                                  await taskManager.removeTaskGroup(task.group!);
                                 }
                               }
 
-                              taskManager.removeTask(task);
+                              await taskManager.removeTask(task);
                               pageSelection.changePage(0);
                           },
                           child: Text('Done'),

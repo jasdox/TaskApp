@@ -10,6 +10,7 @@ import 'package:window_manager/window_manager.dart';
 import 'dart:io';
 import 'task_database.dart';
 import 'create_group_page.dart';
+import 'edit_group_page.dart';
 
 const double kWidth = 500;
 
@@ -168,7 +169,7 @@ class HomePage extends StatelessWidget {
         page = GroupPage();
         break;
       case 6: 
-        page = Placeholder();
+        page = EditGroupPage();
         break;
       default:
         throw UnimplementedError("no widget exists");

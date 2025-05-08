@@ -117,14 +117,14 @@ class _CreateItemPageState extends State<CreateItemPage> {
                 ),
                 SizedBox(width: 8,),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save(); // Calls onSaved on all fields
 
                       if (selectedGroup != null) {
                         if (selectedGroup == "New Group") {
                           Task newTask = Task(title: _title, dueDate: _dueDate, description: _description);
-                          taskManager.addTask(newTask);
+                          await taskManager.addTask(newTask);
                           pageSelector.changeSelectedTask(newTask);
                           pageSelector.prevPage = 1;
                           pageSelector.changePage(4);
@@ -132,14 +132,14 @@ class _CreateItemPageState extends State<CreateItemPage> {
                         else {
                           Task newTask = Task(title: _title, dueDate: _dueDate, description: _description, group: TaskDatabase.taskGroups.firstWhere((group) => group.id == selectedGroup));
                           newTask.group!.taskCount += 1;
-                          taskManager.updateGroup(newTask.group!);
-                          taskManager.addTask(newTask);
+                          await taskManager.updateGroup(newTask.group!);
+                          await taskManager.addTask(newTask);
                           pageSelector.changePage(0);
                         }
                       }
                       else {
                        Task newTask = Task(title: _title, dueDate: _dueDate, description: _description);
-                       taskManager.addTask(newTask);
+                       await taskManager.addTask(newTask);
                        pageSelector.changePage(0);
                       }
                     }

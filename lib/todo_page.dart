@@ -78,15 +78,15 @@ class _ToDoPageState extends State<ToDoPage> {
                                   backgroundColor: WidgetStateProperty.all(task.group!.color),
                                 )
                               : null,
-                          onPressed: () {
+                          onPressed: () async {
                             if (task.group != null) {
                               task.group!.taskCount -= 1;
-                              taskManager.updateGroup(task.group!);
+                              await taskManager.updateGroup(task.group!);
                               if (task.group!.taskCount <= 0) {
-                                taskManager.removeTaskGroup(task.group!);
+                                await taskManager.removeTaskGroup(task.group!);
                               }
                             }
-                            taskManager.removeTask(task);
+                            await taskManager.removeTask(task);
                           },
                           child: const Text("Done"),
                         ),
