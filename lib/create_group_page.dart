@@ -16,7 +16,7 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
   final _formKey = GlobalKey<FormState>();
   String _title = '';
   String _description = '';
-  Color? _color;
+  Color? _color = Colors.red;
 
   @override
   Widget build(BuildContext context) {

@@ -7,11 +7,16 @@ class TaskPage extends StatelessWidget {
   const TaskPage({super.key});
 
 
+
   @override
   Widget build(BuildContext context) {
     var pageSelection = Provider.of<PageSelector>(context, listen: false);
-    var taskManager = Provider.of<TaskManager>(context, listen: false);
+    var taskManager = Provider.of<TaskManager>(context);
     Task task = pageSelection.selectedTask!;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      taskManager.loadTasks();
+    });
 
 
     return Scaffold(
@@ -25,12 +30,22 @@ class TaskPage extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
+              if (task.description != null && task.description != '') ...[
               Text("Description: ${task.description ?? ''}"),
               SizedBox(height: 8,),
+              ],
               Text("Due Date: ${task.dueDate.day}/${task.dueDate.month}/${task.dueDate.year}"),
               SizedBox(height: 32,),
               if (task.group != null) ...[
-              Text("Group: ${task.group.toString()}"),
+              OutlinedButton
+              (onPressed:() {
+                pageSelection.prevPage = 2;
+                pageSelection.selectedGroup = task.group;
+                pageSelection.changePage(5);
+              },
+              style: ButtonStyle(backgroundColor: WidgetStateProperty.all(task.group!.color)),
+               child: Text("Group: ${task.group.toString()}"),
+               ),
               SizedBox(height: 32,),
               ],
               Row(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/group_page.dart';
 import 'package:provider/provider.dart';
 import 'todo_page.dart';
 import 'create_item_page.dart';
@@ -65,6 +66,7 @@ class PageSelector extends ChangeNotifier {
   int currentPage = 0;
   int prevPage = 0;
   Task? selectedTask;
+  TaskGroup? selectedGroup;
 
   void changePage(int pageNum) {
     currentPage = pageNum;
@@ -85,36 +87,36 @@ class PageSelector extends ChangeNotifier {
 
 class TaskManager extends ChangeNotifier {
 
-  void addTask(Task newTask) async {
+  Future<void> addTask(Task newTask) async {
     TaskDatabase.insertTask(newTask);
     await TaskDatabase.updateLists();
     notifyListeners();
   }
 
-  void addGroup(TaskGroup newTaskGroup) async {
+  Future<void> addGroup(TaskGroup newTaskGroup) async {
     TaskDatabase.insertGroup(newTaskGroup);
     await TaskDatabase.updateLists();
     notifyListeners();
   }
 
-  void updateTask(Task task) async {
+  Future<void> updateTask(Task task) async {
     TaskDatabase.updateTask(task);
     await TaskDatabase.updateLists();
     notifyListeners();
   }
 
-  void updateGroup(TaskGroup taskGroup) async {
+  Future<void> updateGroup(TaskGroup taskGroup) async {
     TaskDatabase.updateGroup(taskGroup);
     await TaskDatabase.updateLists();
     notifyListeners();
   }
 
-  void removeTask(Task task) async {
+  Future<void> removeTask(Task task) async {
     TaskDatabase.deleteTask(task);
     await TaskDatabase.updateLists();
     notifyListeners();
   }
-  void removeTaskGroup(TaskGroup taskGroup) async {
+  Future<void> removeTaskGroup(TaskGroup taskGroup) async {
     TaskDatabase.deleteGroup(taskGroup);
     await TaskDatabase.updateLists();
     notifyListeners();
@@ -161,6 +163,12 @@ class HomePage extends StatelessWidget {
         break;
       case 4:
         page = CreateGroupPage();
+        break;
+      case 5: 
+        page = GroupPage();
+        break;
+      case 6: 
+        page = Placeholder();
         break;
       default:
         throw UnimplementedError("no widget exists");
