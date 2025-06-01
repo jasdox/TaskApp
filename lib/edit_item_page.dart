@@ -29,6 +29,8 @@ class _EditItemPageState extends State<EditItemPage> {
     Task task = pageSelection.selectedTask!;
     var taskManager = Provider.of<TaskManager>(context, listen: false);
 
+    int priority = task.priority;
+
     List<DropdownMenuEntry<String>> groupEntries = TaskDatabase.taskGroups.map<DropdownMenuEntry<String>>(
       (TaskGroup taskGroup) {
         return DropdownMenuEntry<String>(value: taskGroup.id, label: taskGroup.toString());
@@ -36,6 +38,7 @@ class _EditItemPageState extends State<EditItemPage> {
       ).toList();
 
     groupEntries.add(DropdownMenuEntry(value: "New Group", label: "New Group"));
+    
 
 
     return Scaffold(
@@ -109,6 +112,18 @@ class _EditItemPageState extends State<EditItemPage> {
                   )
                 ]
               ],
+            ),
+            Column(
+              children: [
+                Text(textAlign: TextAlign.center, 'Priority'),
+                Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Radio>[
+                  for (int i = 0; i < 4; i++)
+                  Radio<int>(value: i, groupValue: priority, onChanged:(value) {setState(() => priority = value!); task.priority = priority;} ,)
+                  ],
+                ),
+              ],              
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
