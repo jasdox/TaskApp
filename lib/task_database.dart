@@ -13,15 +13,15 @@ class TaskDatabase {
     databaseFactory = databaseFactoryFfi;
 
   // below is for if databse needs to be re-created
-  //final dbPath = join(await getDatabasesPath(), 'task_database.db');
-  //await deleteDatabase(dbPath);
+  final dbPath = join(await getDatabasesPath(), 'task_database.db');
+  await deleteDatabase(dbPath);
 
 
     database = await openDatabase(
     join(await getDatabasesPath(), 'task_database.db'),
 
     onCreate: (db, version) async {
-      await db.execute('CREATE TABLE tasks(id TEXT PRIMARY KEY, title TEXT, description TEXT, dueDate INTEGER, groupId TEXT, FOREIGN KEY (groupId) REFERENCES groups(id) ON DELETE SET NULL)');
+      await db.execute('CREATE TABLE tasks(id TEXT PRIMARY KEY, title TEXT, description TEXT, dueDate INTEGER, priority, INTEGER, groupId TEXT, FOREIGN KEY (groupId) REFERENCES groups(id) ON DELETE SET NULL)');
       await db.execute('CREATE TABLE groups(id TEXT PRIMARY KEY, title TEXT, color INTEGER, taskCount INTEGER)');
     },
 
@@ -38,18 +38,22 @@ class TaskDatabase {
     taskGroups = [for (final {'id': id as String, 'title': title as String, 'color': color as int, 'taskCount': taskCount as int} in groupMaps) TaskGroup(title: title, id: id, color: Color(color), taskCount: taskCount)];
 
     tasks = [];
-      for (final {'id': id as String, 'title': title as String, 'description': description as String, 'dueDate': dueDate as int, 'groupId': groupId as String?} in taskMaps) {
+      for (final {'id': id as String, 'title': title as String, 'description': description as String, 'priority': priority as int, 'dueDate': dueDate as int, 'groupId': groupId as String?} in taskMaps) {
       TaskGroup? group = taskGroups.where((group) => group.id == groupId).isNotEmpty
       ? taskGroups.firstWhere((group) => group.id == groupId)
       : null;
       
-      tasks.add(Task(id: id, title: title, description: description, dueDate: DateTime.fromMillisecondsSinceEpoch(dueDate), group: group));  
+      tasks.add(Task(id: id, title: title, description: description, priority: priority, dueDate: DateTime.fromMillisecondsSinceEpoch(dueDate), group: group));  
  
       }
   }
 
   static sortTasksByDate() {
-    tasks.sort((a, b) => a.dueDate.compareTo(b.dueDate));
+      tasks.sort((a, b) {
+      int cmp = (a.dueDate.compareTo(b.dueDate));
+      if (cmp != 0) return cmp;
+      return a.priority.compareTo(b.priority);
+    },);
   }
 
   static sortTasksByGroup() {
@@ -58,6 +62,14 @@ class TaskDatabase {
       if (cmp != 0) return cmp;
       return a.dueDate.compareTo(b.dueDate);
       });
+  }
+
+  static sortTasksByPriority() {
+    tasks.sort((a, b) {
+      int cmp = (a.priority.compareTo(b.priority));
+      if (cmp != 0) return cmp;
+      return a.dueDate.compareTo(b.dueDate);
+    },);
   }
 
   static insertTask(Task task) {

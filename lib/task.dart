@@ -5,12 +5,13 @@ class Task {
   String id;
   String title;
   DateTime dueDate;
+  int priority; 
   String? description;
   TaskGroup? group;
   
   
 
-  Task({required this.title, required this.dueDate, this.description, this.group, String? id}) : id = id ?? Uuid().v4();
+  Task({required this.title, required this.dueDate, required this.priority, this.description, this.group, String? id}) : id = id ?? Uuid().v4();
 
   @override
   String toString() {
@@ -18,7 +19,7 @@ class Task {
   }
 
   Map<String, Object?> toMap() {
-    return {'id': id, 'title': title, 'description': description, 'dueDate': dueDate.millisecondsSinceEpoch, 'groupID': group?.id};
+    return {'id': id, 'title': title, 'description': description, 'dueDate': dueDate.millisecondsSinceEpoch, 'priority': priority,  'groupID': group?.id};
   }
 
   void addToGroup(TaskGroup group) {

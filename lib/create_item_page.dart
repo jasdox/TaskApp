@@ -18,7 +18,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
   String _description = '';
   DateTime _dueDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   bool inGroup = false;
-  int _priority = 1;
+  int _priority = 0;
   String? selectedGroup;
 
   @override
@@ -136,14 +136,14 @@ class _CreateItemPageState extends State<CreateItemPage> {
 
                       if (selectedGroup != null) {
                         if (selectedGroup == "New Group") {
-                          Task newTask = Task(title: _title, dueDate: _dueDate, description: _description);
+                          Task newTask = Task(title: _title, dueDate: _dueDate, priority: _priority, description: _description);
                           await taskManager.addTask(newTask);
                           pageSelector.changeSelectedTask(newTask);
                           pageSelector.prevPage = 1;
                           pageSelector.changePage(4);
                         }
                         else {
-                          Task newTask = Task(title: _title, dueDate: _dueDate, description: _description, group: TaskDatabase.taskGroups.firstWhere((group) => group.id == selectedGroup));
+                          Task newTask = Task(title: _title, dueDate: _dueDate, priority: _priority, description: _description, group: TaskDatabase.taskGroups.firstWhere((group) => group.id == selectedGroup));
                           newTask.group!.taskCount += 1;
                           await taskManager.updateGroup(newTask.group!);
                           await taskManager.addTask(newTask);
@@ -151,7 +151,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                         }
                       }
                       else {
-                       Task newTask = Task(title: _title, dueDate: _dueDate, description: _description);
+                       Task newTask = Task(title: _title, dueDate: _dueDate, priority: _priority, description: _description);
                        await taskManager.addTask(newTask);
                        pageSelector.changePage(0);
                       }
