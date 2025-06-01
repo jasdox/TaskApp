@@ -18,6 +18,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
   String _description = '';
   DateTime _dueDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   bool inGroup = false;
+  int _priority = 1;
   String? selectedGroup;
 
   @override
@@ -93,7 +94,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                   onChanged: (value) => setState(() => inGroup = value!),
                 ),
                 SizedBox(width: 8),
-                Text('In Group?'),
+                Text('Group'),
                 if (inGroup) ...[
                 SizedBox(width: 32),
                 DropdownMenu<String>(
@@ -105,6 +106,18 @@ class _CreateItemPageState extends State<CreateItemPage> {
                   )
                 ]
               ],
+            ),
+            Column(
+              children: [
+                Text(textAlign: TextAlign.center, 'Priority'),
+                Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Radio>[
+                  for (int i = 0; i < 4; i++)
+                  Radio<int>(value: i, groupValue: _priority, onChanged:(value) => setState(() => _priority = value!,),)
+                  ],
+                ),
+              ],              
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
