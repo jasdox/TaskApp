@@ -35,6 +35,7 @@ class TaskPage extends StatelessWidget {
               SizedBox(height: 8,),
               ],
               Text("Due Date: ${task.dueDate.day}/${task.dueDate.month}/${task.dueDate.year}"),
+              Text("Priority: ${task.priority}"),
               SizedBox(height: 32,),
               if (task.group != null) ...[
               OutlinedButton

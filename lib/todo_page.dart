@@ -40,7 +40,7 @@ class _ToDoPageState extends State<ToDoPage> {
               alignment: Alignment.centerLeft,
               child: DropdownMenu<int>(
                       label: Text("Sort By"),
-                      dropdownMenuEntries: [DropdownMenuEntry(value: 0, label: "Due Date"), DropdownMenuEntry(value: 1, label: "Group")],
+                      dropdownMenuEntries: [DropdownMenuEntry(value: 0, label: "Due Date"), DropdownMenuEntry(value: 1, label: "Group"), DropdownMenuEntry(value: 2, label: "Priority")],
                       onSelected: (int? value) {
                         if (value != null) {
                           taskManager.sortTasks(value);

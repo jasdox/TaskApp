@@ -132,8 +132,11 @@ class TaskManager extends ChangeNotifier {
     if (sortType == 0) {
       TaskDatabase.sortTasksByDate();
     }
-    else {
+    else if (sortType == 1) {
       TaskDatabase.sortTasksByGroup();
+    }
+    else if (sortType == 2) {
+      TaskDatabase.sortTasksByPriority();
     }
     notifyListeners();
   }
